@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShurimaEmperor.Api.Summoners", "ShurimaEmperor.Api.Summoners\ShurimaEmperor.Api.Summoners.csproj", "{AE2B516F-CDDF-46A2-9F86-A95C54F5C6EB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShurimaEmperor.Api.Matches", "ShurimaEmperor.Api.Matches\ShurimaEmperor.Api.Matches.csproj", "{65BE8AC8-3EEB-45D2-BB00-88EF710E286A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShurimaEmperor.Api.Champions", "ShurimaEmperor.Api.Champions\ShurimaEmperor.Api.Champions.csproj", "{5B5310F6-65AD-4905-BF73-BF95588537F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShurimaEmperor.Api.Leagues", "ShurimaEmperor.Api.Leagues\ShurimaEmperor.Api.Leagues.csproj", "{40212516-EA53-4481-AEF5-3492F54BFF01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AE2B516F-CDDF-46A2-9F86-A95C54F5C6EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2B516F-CDDF-46A2-9F86-A95C54F5C6EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE2B516F-CDDF-46A2-9F86-A95C54F5C6EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2B516F-CDDF-46A2-9F86-A95C54F5C6EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65BE8AC8-3EEB-45D2-BB00-88EF710E286A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65BE8AC8-3EEB-45D2-BB00-88EF710E286A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65BE8AC8-3EEB-45D2-BB00-88EF710E286A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65BE8AC8-3EEB-45D2-BB00-88EF710E286A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B5310F6-65AD-4905-BF73-BF95588537F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B5310F6-65AD-4905-BF73-BF95588537F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B5310F6-65AD-4905-BF73-BF95588537F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B5310F6-65AD-4905-BF73-BF95588537F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40212516-EA53-4481-AEF5-3492F54BFF01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40212516-EA53-4481-AEF5-3492F54BFF01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40212516-EA53-4481-AEF5-3492F54BFF01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40212516-EA53-4481-AEF5-3492F54BFF01}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C88C3319-39C6-456A-8292-9CCD6F5E5A92}
+	EndGlobalSection
+EndGlobal
