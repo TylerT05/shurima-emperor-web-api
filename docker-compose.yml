@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  shurimaemperor.api.summoners:
+    image: ${DOCKER_REGISTRY-}summonersservice
+    build:
+      context: .
+      dockerfile: ShurimaEmperor.Api.Summoners/Dockerfile
+
+  shurimaemperor.api.matches:
+    image: ${DOCKER_REGISTRY-}matchesservice
+    build:
+      context: .
+      dockerfile: ShurimaEmperor.Api.Matches/Dockerfile
+

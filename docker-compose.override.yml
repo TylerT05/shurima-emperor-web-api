@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  shurimaemperor.api.summoners:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "6001:80"
+  shurimaemperor.api.matches:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "6002:80"
