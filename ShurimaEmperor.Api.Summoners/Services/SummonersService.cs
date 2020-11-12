@@ -21,11 +21,12 @@ namespace ShurimaEmperor.Api.Summoners.Services
             this.logger = logger;
         }
 
-        public async Task<(bool IsSuccess, dynamic Summoner, string ErrorMessage)> GetSummonerByNameAsync(string name, int index)
+        public async Task<(bool IsSuccess, dynamic Summoner, string ErrorMessage)> GetSummonerByNameAsync(string name, string server, int index)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("SummonersService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com");
                 var response = await client.GetAsync($"/lol/summoner/v4/summoners/by-name/{name}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -104,11 +105,12 @@ namespace ShurimaEmperor.Api.Summoners.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic Verify, string ErrorMessage)> VerifySummonerByNameAsync(string name)
+        public async Task<(bool IsSuccess, dynamic Verify, string ErrorMessage)> VerifySummonerByNameAsync(string name, string server)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("SummonersService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com");
                 var response = await client.GetAsync($"/lol/summoner/v4/summoners/by-name/{name}");
                 if (response.IsSuccessStatusCode)
                 {

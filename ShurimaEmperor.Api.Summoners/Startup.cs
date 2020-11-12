@@ -33,7 +33,7 @@ namespace ShurimaEmperor.Api.Summoners
 
             services.AddHttpClient("SummonersService", config =>
             {
-                config.BaseAddress = new Uri(Configuration["Services:RiotGamesApi"]);
+                //config.BaseAddress = new Uri(Configuration["Services:RiotGamesApi"]);
                 config.DefaultRequestHeaders.Add("X-Riot-Token", API_KEY);
             });
             services.AddCors(c =>

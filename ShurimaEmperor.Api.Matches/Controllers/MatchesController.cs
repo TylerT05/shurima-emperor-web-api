@@ -18,10 +18,10 @@ namespace ShurimaEmperor.Api.Matches.Controllers
             this.matchesService = matchesService;
         }
 
-        [HttpGet("match-list/by-account/{accountId}")]
-        public async Task<IActionResult> GetMatchListByAccountIdAsync(string accountId)
+        [HttpGet("{server}/match-list/by-account/{accountId}")]
+        public async Task<IActionResult> GetMatchListByAccountIdAsync(string accountId, string server)
         {
-            var result = await matchesService.GetMatchListByAccountIdAsync(accountId);
+            var result = await matchesService.GetMatchListByAccountIdAsync(accountId, server);
             if (result.IsSuccess)
             {
                 return Ok(result.MatchList);
@@ -30,10 +30,10 @@ namespace ShurimaEmperor.Api.Matches.Controllers
             return NotFound();
         }
 
-        [HttpGet("matches/{matchId}")]
-        public async Task<IActionResult> GetMatchByMatchIdAsync(long matchId)
+        [HttpGet("{server}/matches/{matchId}")]
+        public async Task<IActionResult> GetMatchByMatchIdAsync(long matchId, string server)
         {
-            var result = await matchesService.GetMatchByMatchIdAsync(matchId);
+            var result = await matchesService.GetMatchByMatchIdAsync(matchId, server);
             if (result.IsSuccess)
             {
                 return Ok(result.Match);
@@ -42,10 +42,10 @@ namespace ShurimaEmperor.Api.Matches.Controllers
             return NotFound();
         }
 
-        [HttpGet("timelines/by-match/{matchId}")]
-        public async Task<IActionResult> GetMatchTimelineByMatchIdAsync(long matchId)
+        [HttpGet("{server}/timelines/by-match/{matchId}")]
+        public async Task<IActionResult> GetMatchTimelineByMatchIdAsync(long matchId, string server)
         {
-            var result = await matchesService.GetMatchTimelineByMatchIdAsync(matchId);
+            var result = await matchesService.GetMatchTimelineByMatchIdAsync(matchId, server);
             if (result.IsSuccess)
             {
                 return Ok(result.MatchTimeline);

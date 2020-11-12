@@ -18,10 +18,10 @@ namespace ShurimaEmperor.Api.Summoners.Controllers
             this.summonersService = summonersService;
         }
 
-        [HttpGet("by-name/{name}")]
-        public async Task<IActionResult> GetSummonerByNameAsync(string name, int index)
+        [HttpGet("{server}/{name}")]
+        public async Task<IActionResult> GetSummonerByNameAsync(string name, string server, int index)
         {
-            var result = await summonersService.GetSummonerByNameAsync(name, index);
+            var result = await summonersService.GetSummonerByNameAsync(name, server, index);
             if (result.IsSuccess)
             {
                 return Ok(result.Summoner);
@@ -30,10 +30,10 @@ namespace ShurimaEmperor.Api.Summoners.Controllers
             return NotFound();
         }
 
-        [HttpGet("verify-by-name/{name}")]
-        public async Task<IActionResult> VerifySummonerByNameAsync(string name)
+        [HttpGet("{server}/verify/{name}")]
+        public async Task<IActionResult> VerifySummonerByNameAsync(string name, string server)
         {
-            var result = await summonersService.VerifySummonerByNameAsync(name);
+            var result = await summonersService.VerifySummonerByNameAsync(name, server);
             if (result.IsSuccess)
             {
                 return Ok(result.Verify);

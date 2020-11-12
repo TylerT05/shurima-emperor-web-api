@@ -24,11 +24,12 @@ namespace ShurimaEmperor.Api.Matches.Services
             this.mapper = mapper;
         }
 
-        public async Task<(bool IsSuccess, dynamic Match, string ErrorMessage)> GetMatchByMatchIdAsync(long matchId)
+        public async Task<(bool IsSuccess, dynamic Match, string ErrorMessage)> GetMatchByMatchIdAsync(long matchId, string server)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("MatchesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/match/v4/matches/{matchId}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -124,11 +125,12 @@ namespace ShurimaEmperor.Api.Matches.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic MatchList, string ErrorMessage)> GetMatchListByAccountIdAsync(string accountId)
+        public async Task<(bool IsSuccess, dynamic MatchList, string ErrorMessage)> GetMatchListByAccountIdAsync(string accountId, string server)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("MatchesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/match/v4/matchlists/by-account/{accountId}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -148,11 +150,12 @@ namespace ShurimaEmperor.Api.Matches.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic MatchTimeline, string ErrorMessage)> GetMatchTimelineByMatchIdAsync(long matchId)
+        public async Task<(bool IsSuccess, dynamic MatchTimeline, string ErrorMessage)> GetMatchTimelineByMatchIdAsync(long matchId, string server)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("MatchesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/match/v4/timelines/by-match/{matchId}");
                 if (response.IsSuccessStatusCode)
                 {
