@@ -18,7 +18,7 @@ namespace ShurimaEmperor.Api.Matches
 {
     public class Startup
     {
-        private const string API_KEY = "RGAPI-513a6bc3-378f-4ce3-907e-fd298ea23fd8";
+        private const string API_KEY = "RGAPI-14215bdb-6d02-4025-a42b-cb55af6d834e";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,10 +36,15 @@ namespace ShurimaEmperor.Api.Matches
                 //config.BaseAddress = new Uri(Configuration["Services:RiotGamesApi"]);
                 config.DefaultRequestHeaders.Add("X-Riot-Token", API_KEY);
             });
-            services.AddCors(c =>
-            {
-                c.AddDefaultPolicy(options => options.AllowAnyOrigin());
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(
+            //        builder =>
+            //        {
+            //            //builder.WithOrigins("https://shurimaemperorwebapp.azurewebsites.net");
+            //            builder.AllowAnyOrigin();
+            //        });
+            //});
             services.AddControllers();
         }
 
@@ -55,7 +60,7 @@ namespace ShurimaEmperor.Api.Matches
 
             app.UseRouting();
 
-            app.UseCors(options => options.AllowAnyOrigin());
+            //app.UseCors();
 
             app.UseAuthorization();
 

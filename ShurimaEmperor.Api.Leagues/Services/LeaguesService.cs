@@ -21,11 +21,12 @@ namespace ShurimaEmperor.Api.Leagues.Services
             this.logger = logger;
         }
 
-        public async Task<(bool IsSuccess, dynamic LeagueEntries, string ErrorMessage)> GetAllLeagueEntries(string queue, string tier, string division)
+        public async Task<(bool IsSuccess, dynamic LeagueListDetail, string ErrorMessage)> GetAllLeagueEntries(string queue, string tier, string division, string server, int index)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("LeaguesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/league/v4/entries/{queue}/{tier}/{division}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -33,7 +34,24 @@ namespace ShurimaEmperor.Api.Leagues.Services
                     var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
                     var result = JsonSerializer.Deserialize<HashSet<LeagueEntry>>(content, options);
 
-                    return (true, result, null);
+                    var leagueList = new LeagueListDetail();
+                    leagueList.Tier = tier;
+                    leagueList.Queue = queue;
+                    leagueList.Entries = new List<LeagueItemDetail>();
+                    
+                    foreach(var e in result.OrderByDescending(x => x.LeaguePoints).Skip(index - 10).Take(10))
+                    {
+                        leagueList.Entries.Add(new LeagueItemDetail
+                        {
+                            SummonerName = e.SummonerName,
+                            Wins = e.Wins,
+                            Losses = e.Losses,
+                            LeaguePoints = e.LeaguePoints,
+                            Rank = e.Rank
+                        });
+                    }
+
+                    return (true, leagueList, null);
                 }
 
                 return (false, null, response.ReasonPhrase);
@@ -45,11 +63,12 @@ namespace ShurimaEmperor.Api.Leagues.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic LeagueList, string ErrorMessage)> GetChallengerLeaguesByQueue(string queue)
+        public async Task<(bool IsSuccess, dynamic LeagueListDetail, string ErrorMessage)> GetChallengerLeaguesByQueue(string queue, string server, int index)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("LeaguesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/league/v4/challengerleagues/by-queue/{queue}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -57,7 +76,24 @@ namespace ShurimaEmperor.Api.Leagues.Services
                     var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
                     var result = JsonSerializer.Deserialize<LeagueList>(content, options);
 
-                    return (true, result, null);
+                    var leagueList = new LeagueListDetail();
+                    leagueList.Tier = result.Tier;
+                    leagueList.Queue = result.Queue;
+                    leagueList.Entries = new List<LeagueItemDetail>();
+
+                    foreach (var e in result.Entries.OrderByDescending(x => x.LeaguePoints).Skip(index - 10).Take(10))
+                    {
+                        leagueList.Entries.Add(new LeagueItemDetail
+                        {
+                            SummonerName = e.SummonerName,
+                            Wins = e.Wins,
+                            Losses = e.Losses,
+                            LeaguePoints = e.LeaguePoints,
+                            Rank = e.Rank
+                        });
+                    }
+
+                    return (true, leagueList, null);
                 }
 
                 return (false, null, response.ReasonPhrase);
@@ -69,11 +105,12 @@ namespace ShurimaEmperor.Api.Leagues.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic LeagueList, string ErrorMessage)> GetGrandmasterLeaguesByQueue(string queue)
+        public async Task<(bool IsSuccess, dynamic LeagueListDetail, string ErrorMessage)> GetGrandmasterLeaguesByQueue(string queue, string server, int index)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("LeaguesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/league/v4/grandmasterleagues/by-queue/{queue}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -81,7 +118,24 @@ namespace ShurimaEmperor.Api.Leagues.Services
                     var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
                     var result = JsonSerializer.Deserialize<LeagueList>(content, options);
 
-                    return (true, result, null);
+                    var leagueList = new LeagueListDetail();
+                    leagueList.Tier = result.Tier;
+                    leagueList.Queue = result.Queue;
+                    leagueList.Entries = new List<LeagueItemDetail>();
+
+                    foreach (var e in result.Entries.OrderByDescending(x => x.LeaguePoints).Skip(index - 10).Take(10))
+                    {
+                        leagueList.Entries.Add(new LeagueItemDetail
+                        {
+                            SummonerName = e.SummonerName,
+                            Wins = e.Wins,
+                            Losses = e.Losses,
+                            LeaguePoints = e.LeaguePoints,
+                            Rank = e.Rank
+                        });
+                    }
+
+                    return (true, leagueList, null);
                 }
 
                 return (false, null, response.ReasonPhrase);
@@ -93,59 +147,12 @@ namespace ShurimaEmperor.Api.Leagues.Services
             }
         }
 
-        public async Task<(bool IsSuccess, dynamic LeagueEntries, string ErrorMessage)> GetLeagueEntriesBySummoner(string summonerId)
+        public async Task<(bool IsSuccess, dynamic LeagueListDetail, string ErrorMessage)> GetMasterLeaguesByQueue(string queue, string server, int index)
         {
             try
             {
                 var client = httpClientFactory.CreateClient("LeaguesService");
-                var response = await client.GetAsync($"/lol/league/v4/entries/by-summoner/{summonerId}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsByteArrayAsync();
-                    var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                    var result = JsonSerializer.Deserialize<HashSet<LeagueEntry>>(content, options);
-
-                    return (true, result, null);
-                }
-
-                return (false, null, response.ReasonPhrase);
-            }
-            catch (Exception ex)
-            {
-                logger?.LogError(ex.ToString());
-                return (false, null, ex.Message);
-            }
-        }
-
-        public async Task<(bool IsSuccess, dynamic LeagueList, string ErrorMessage)> GetLeaguesByLeagueId(string leagueId)
-        {
-            try
-            {
-                var client = httpClientFactory.CreateClient("LeaguesService");
-                var response = await client.GetAsync($"/lol/league/v4/leagues/{leagueId}");
-                if (response.IsSuccessStatusCode)
-                {
-                    var content = await response.Content.ReadAsByteArrayAsync();
-                    var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
-                    var result = JsonSerializer.Deserialize<LeagueList>(content, options);
-
-                    return (true, result, null);
-                }
-
-                return (false, null, response.ReasonPhrase);
-            }
-            catch (Exception ex)
-            {
-                logger?.LogError(ex.ToString());
-                return (false, null, ex.Message);
-            }
-        }
-
-        public async Task<(bool IsSuccess, dynamic LeagueList, string ErrorMessage)> GetMasterLeaguesByQueue(string queue)
-        {
-            try
-            {
-                var client = httpClientFactory.CreateClient("LeaguesService");
+                client.BaseAddress = new Uri($"https://{server}.api.riotgames.com/");
                 var response = await client.GetAsync($"/lol/league/v4/masterleagues/by-queue/{queue}");
                 if (response.IsSuccessStatusCode)
                 {
@@ -153,7 +160,24 @@ namespace ShurimaEmperor.Api.Leagues.Services
                     var options = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
                     var result = JsonSerializer.Deserialize<LeagueList>(content, options);
 
-                    return (true, result, null);
+                    var leagueList = new LeagueListDetail();
+                    leagueList.Tier = result.Tier;
+                    leagueList.Queue = result.Queue;
+                    leagueList.Entries = new List<LeagueItemDetail>();
+
+                    foreach (var e in result.Entries.OrderByDescending(x => x.LeaguePoints).Skip(index - 10).Take(10))
+                    {
+                        leagueList.Entries.Add(new LeagueItemDetail
+                        {
+                            SummonerName = e.SummonerName,
+                            Wins = e.Wins,
+                            Losses = e.Losses,
+                            LeaguePoints = e.LeaguePoints,
+                            Rank = e.Rank
+                        });
+                    }
+
+                    return (true, leagueList, null);
                 }
 
                 return (false, null, response.ReasonPhrase);

@@ -18,73 +18,44 @@ namespace ShurimaEmperor.Api.Leagues.Controllers
             this.leaguesService = leaguesService;
         }
 
-        [HttpGet("entries/{queue}/{tier}/{division}")]
-        public async Task<IActionResult> GetAllLeagueEntries(string queue, string tier, string division)
+        [HttpGet("{server}/entries/{queue}/{tier}/{division}")]
+        public async Task<IActionResult> GetAllLeagueEntries(string queue, string tier, string division, string server, int index)
         {
-            var result = await leaguesService.GetAllLeagueEntries(queue, tier, division);
-            if (result.IsSuccess)
+            if(tier == "CHALLENGER")
             {
-                return Ok(result.LeagueEntries);
+                var result = await leaguesService.GetChallengerLeaguesByQueue(queue, server, index);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.LeagueListDetail);
+                }
             }
-
-            return NotFound();
-        }
-
-        [HttpGet("challengerleagues/by-queue/{queue}")]
-        public async Task<IActionResult> GetChallengerLeaguesByQueue(string queue)
-        {
-            var result = await leaguesService.GetChallengerLeaguesByQueue(queue);
-            if (result.IsSuccess)
+            else if(tier == "GRANDMASTER")
             {
-                return Ok(result.LeagueList);
+                var result = await leaguesService.GetGrandmasterLeaguesByQueue(queue, server, index);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.LeagueListDetail);
+                }
             }
-
-            return NotFound();
-        }
-
-        [HttpGet("grandmasterleagues/by-queue/{queue}")]
-        public async Task<IActionResult> GetGrandmasterLeaguesByQueue(string queue)
-        {
-            var result = await leaguesService.GetGrandmasterLeaguesByQueue(queue);
-            if (result.IsSuccess)
+            else if(tier == "MASTER")
             {
-                return Ok(result.LeagueList);
+                var result = await leaguesService.GetMasterLeaguesByQueue(queue, server, index);
+
+                if (result.IsSuccess)
+                {
+                    return Ok(result.LeagueListDetail);
+                }
             }
-
-            return NotFound();
-        }
-
-        [HttpGet("entries/by-summoner/{summonerId}")]
-        public async Task<IActionResult> GetLeagueEntriesBySummoner(string summonerId)
-        {
-            var result = await leaguesService.GetLeagueEntriesBySummoner(summonerId);
-            if (result.IsSuccess)
+            else
             {
-                return Ok(result.LeagueEntries);
-            }
+                var result = await leaguesService.GetAllLeagueEntries(queue, tier, division, server, index);
 
-            return NotFound();
-        }
-
-        [HttpGet("{leagueId}")]
-        public async Task<IActionResult> GetLeaguesByLeagueId(string leagueId)
-        {
-            var result = await leaguesService.GetLeaguesByLeagueId(leagueId);
-            if (result.IsSuccess)
-            {
-                return Ok(result.LeagueList);
-            }
-
-            return NotFound();
-        }
-
-        [HttpGet("masterleagues/by-queue/{queue}")]
-        public async Task<IActionResult> GetMasterLeaguesByQueue(string queue)
-        {
-            var result = await leaguesService.GetMasterLeaguesByQueue(queue);
-            if (result.IsSuccess)
-            {
-                return Ok(result.LeagueList);
+                if (result.IsSuccess)
+                {
+                    return Ok(result.LeagueListDetail);
+                }
             }
 
             return NotFound();
